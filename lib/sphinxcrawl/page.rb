@@ -4,9 +4,10 @@ module Sphinxcrawl
   class Page
     include REXML
 
-    attr_reader :html
+    attr_reader :html, :url
 
-    def initialize(html)
+    def initialize(url, html)
+      @url = url
       @html = html
       @field_data = {}
     end
@@ -23,6 +24,10 @@ module Sphinxcrawl
 
     def field(name)
       @field_data[name] ||= get_field(name)
+    end
+
+    def children
+      @children ||= XPath.match(document, '//a/@href').map(&:value)
     end
 
     private
