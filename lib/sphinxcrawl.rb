@@ -1,5 +1,6 @@
-require "sphinxcrawl/version"
+require 'sphinxcrawl/version'
+require 'sphinxcrawl/page'
+require 'sphinxcrawl/stream'
 
 module Sphinxcrawl
-  # Your code goes here...
 end
