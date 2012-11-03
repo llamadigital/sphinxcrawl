@@ -31,7 +31,8 @@ module Sphinxcrawl
     end
 
     def get_page(path)
-      location = path && !path.empty? ? path : '/'
+      path = path && !path.empty? ? path : '/'
+      location = path
       begin
         response = http.request(Net::HTTP::Get.new(location))
       end while location = response.header['location']
