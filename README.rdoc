@@ -1,19 +1,13 @@
-= sphinxcrawl - DESCRIBE YOUR GEM
+= sphinxcrawl - html crawler and sphinx xmlstream generator
 
-Author::  YOUR NAME (YOUR EMAIL)
-Copyright:: Copyright (c) 2012 YOUR NAME
+Author:: Jon Doveston (jon@doveston.me.uk)
+Copyright:: Copyright (c) 2012 Jon Doveston
 
 
-DESCRIBE YOUR GEM HERE
+A command line gem that can crawl html (files or http) and generate an xml
+stream for sphinx search.
 
 == Links
 
-* {Source on Github}[LINK TO GITHUB]
-* RDoc[LINK TO RDOC.INFO]
-
-== Install
-
-== Examples
-
-== Contributing
+* {Source on Github}[https://github.com/hatoishi/sphinxcrawl]
 

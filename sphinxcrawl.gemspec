@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = Sphinxcrawl::VERSION
   gem.authors       = ['Jon Doveston']
   gem.email         = ['jon@doveston.me.uk']
-  gem.description   = %q{Simple command to crawl a site and process the html to sphinx xmlstream}
-  gem.summary       = %q{Simple command to crawl a site and process the html to sphinx xmlstream}
-  gem.homepage      = ''
+  gem.description   = %q{Simple command to crawl a site and process html into a sphinx xmlstream}
+  gem.summary       = %q{Simple command to crawl a site and process html into s sphinx xmlstream}
+  gem.homepage      = 'https://github.com/hatoishi/sphinxcrawl'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
