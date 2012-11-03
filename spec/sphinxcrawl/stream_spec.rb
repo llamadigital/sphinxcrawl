@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Sphinxcrawl::Stream do
-  let(:html) { File.read('spec/fixtures/test.html') }
-  let(:page) { Sphinxcrawl::Page.new('/', html) }
+  let(:html) { File.read('spec/fixtures/index_file.html') }
+  let(:page) { Sphinxcrawl::Page.new('index_file.html', html) }
   subject { Sphinxcrawl::Stream.new(page) }
   let(:xml) { subject.to_xml }
 

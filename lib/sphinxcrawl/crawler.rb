@@ -1,19 +1,36 @@
+require 'set'
+
 module Sphinxcrawl
   class Crawler
     attr_reader :depth
 
-    def initialize(index_file_name, depth=0)
-      @index_file_name = index_file_name
+    def initialize(depth=0)
       @depth = depth
     end
 
     def pages
-      return [index] if depth==0
-      paths = [index.url]
+      return @pages if @pages
+      return [] unless index
+      @pages = Set.new([index])
+      return @pages if @depth == 0
+
+      current_pages = Set.new([index])
+      depth.times do
+        links = current_pages.map(&:links).flatten.compact.uniq
+        current_pages = Set.new(links.map{ |url| get_page(url) }.compact) - @pages
+        @pages += current_pages
+      end
+      @pages
     end
 
+    private
+
     def index
-      @index ||= Page.new(@index_file_name, File.read(@index_file_name))
+      nil
+    end
+
+    def get_page(url)
+      nil
     end
   end
 end

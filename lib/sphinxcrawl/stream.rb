@@ -20,7 +20,7 @@ module Sphinxcrawl
     end
 
     def field_names
-      pages.map(&:field_names).flatten.uniq
+      @field_names ||= pages.map(&:field_names).flatten.uniq
     end
 
     def to_xml
@@ -54,11 +54,13 @@ module Sphinxcrawl
     end
 
     def add_document(page)
-      root.add_element('sphinx:document').tap do |doc|
-        doc.add_attribute('id', next_id)
-        doc.add_element('url').text = CData.new(page.url)
-        field_names.each do |name|
-          doc.add_element(name).text = CData.new(page.field(name))
+      if page.field_names.length > 0
+        root.add_element('sphinx:document').tap do |doc|
+          doc.add_attribute('id', next_id)
+          doc.add_element('url').text = CData.new(page.url)
+          field_names.each do |name|
+            doc.add_element(name).text = CData.new(page.field(name))
+          end
         end
       end
     end

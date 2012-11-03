@@ -1,9 +1,7 @@
-require 'rexml/document'
+require 'nokogiri'
 
 module Sphinxcrawl
   class Page
-    include REXML
-
     attr_reader :html, :url
 
     def initialize(url, html)
@@ -26,22 +24,35 @@ module Sphinxcrawl
       @field_data[name] ||= get_field(name)
     end
 
-    def children
-      @children ||= XPath.match(document, '//a/@href').map(&:value)
+    def links
+      @links ||= document.xpath('//a/@href').map(&:value).map do |url|
+        # only local links (no http://)
+        uri = URI.parse(url)
+        uri.host.nil? && uri.scheme.nil? ? url : nil
+      end.compact
+    end
+
+    def eql?(compare)
+      url == compare.url
+    end
+    alias :== :eql?
+
+    def hash
+      url.hash
     end
 
     private
 
     def get_field(name)
-      XPath.match(document, "//*[@data-field='#{name}']//text()").map(&:value).join(' ')
+      document.xpath("//*[@data-field='#{name}']//text()").map(&:content).join(' ')
     end
 
     def fields
-      @fields ||= XPath.match(document, '//*[@data-field]')
+      @fields ||= document.xpath('//*[@data-field]')
     end
 
     def document
-      @document ||= Document.new(html)
+      @document ||= Nokogiri::HTML(html)
     end
   end
 end

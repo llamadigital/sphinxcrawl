@@ -10,16 +10,24 @@ class App
 
   main do |index|
     index ||= 'index.html'
-    exit_now!(1, "file #{index} not found") unless File.exists?(index)
-    index = index+'/index.html' if File.directory?(index)
-    exit_now!(1, "file #{index} not found") unless File.exists?(index)
-    page = Sphinxcrawl::Page.new('/', File.read(index))
-    stream = Sphinxcrawl::Stream.new(page)
+    if index =~ /http:/
+      crawler = Sphinxcrawl::WebCrawler.new(index, options[:depth].to_i)
+    else
+      exit_now!(1, "file #{index} not found") unless File.exists?(index)
+      index = index+'/index.html' if File.directory?(index)
+      exit_now!(1, "file #{index} not found") unless File.exists?(index)
+      crawler = Sphinxcrawl::FileCrawler.new(index, options[:depth].to_i)
+    end
+    pages = crawler.pages
+    stream = Sphinxcrawl::Stream.new(pages)
     puts stream.to_xml
   end
 
   description 'Generate sphinx xml stream from html pages'
   arg :index, :optional
+
+  options['depth'] = '0'
+  on('-d depth', '--depth', 'Crawl depth', /^\d+$/)
 
   version Sphinxcrawl::VERSION
   use_log_level_option

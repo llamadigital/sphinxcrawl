@@ -17,8 +17,10 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']
   gem.add_dependency('methadone', '~> 1.2.2')
+  gem.add_dependency('nokogiri', '~> 1.5.5')
 
   gem.add_development_dependency('rdoc')
   gem.add_development_dependency('aruba')
-  gem.add_development_dependency('rake', '~> 0.9.2')
+  gem.add_development_dependency('rake')
+  gem.add_development_dependency('webmock')
 end
