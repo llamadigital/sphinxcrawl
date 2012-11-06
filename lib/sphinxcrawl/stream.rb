@@ -51,6 +51,9 @@ module Sphinxcrawl
       schema.add_element('sphinx:field').tap do |field|
         field.add_attribute('name', name)
       end
+      schema.add_element('sphinx:attr').tap do |attr|
+        attr.add_attributes('name' => field_to_attribute(name), 'type' => 'string')
+      end
     end
 
     def add_document(page)
@@ -60,6 +63,7 @@ module Sphinxcrawl
           doc.add_element('url').text = CData.new(page.url)
           field_names.each do |name|
             doc.add_element(name).text = CData.new(page.field(name))
+            doc.add_element(field_to_attribute(name)).text = CData.new(page.field(name))
           end
         end
       end
@@ -74,6 +78,10 @@ module Sphinxcrawl
 
     def root
       document.root
+    end
+
+    def field_to_attribute(name)
+      "#{name}_attr"
     end
 
     def schema
